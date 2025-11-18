@@ -1,7 +1,7 @@
 import pickle
 import os
 
-SAVE_FILENAME = "savegame.dat"
+SAVE_FILENAME = "minesweeper_save.dat"
 
 def save_game(board, elapsed_time):
     state = {
@@ -38,4 +38,5 @@ def delete_save():
         try:
             os.remove(SAVE_FILENAME)
         except IOError as e:
+
             print(f"Error deleting save file: {e}")
