@@ -1,6 +1,6 @@
 import os
 
-FILENAME = "time.txt"
+FILENAME = "minesweeper_save_time.txt"
 
 def load_time():
     if not os.path.exists(FILENAME):
@@ -21,4 +21,5 @@ def save_time(time_taken):
                 file.write(str(time_taken))
             print(f"New best: {time_taken:.2f} seconds!")
         except IOError:
+
             print("Best time couldnt be saved")
