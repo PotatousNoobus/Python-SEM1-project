@@ -1,3 +1,10 @@
+"""
+main.py
+
+The main execution file for the Minesweeper console game.
+It initializes the game, handles the main game loop, processes user input,
+and manages game state transitions (win, loss, save, quit).
+"""
 from board import Board
 import game_logic
 import file_manager
@@ -5,6 +12,19 @@ import game_state
 import time
 
 def user_input(board_size):
+    """
+    Handles user input during the game loop.
+    
+    It prompts the user to enter an action ('r' for reveal, 'f' for flag) 
+    followed by row and column coordinates, or 'q' to quit.
+    It validates the number of arguments, the action command, and the 
+    coordinates against the board size.
+        
+    Returns:
+        tuple: (action: str, row: int, col: int) if valid, 
+               otherwise (None, None, None).
+               
+    """
     try:
         user_input = input("Enter action ('r'/'f' row col) or 'q' to save/quit: ").split()
         
@@ -34,6 +54,17 @@ def user_input(board_size):
         return None, None, None
 
 def run_game():
+    """
+    Initializes and manages the main Minesweeper game loop.
+    
+    This function handles:
+    1. Board initialization and loading a saved game (if available).
+    2. Displaying the best time to beat.
+    3. Tracking the elapsed time using 'time.time()'.
+    4. Processing user moves (reveal or flag) until the game is won, lost, or quit.
+    5. Saving the time/game state upon ending the game.
+    
+    """
     board = Board(size=9, num_mines=10)
     g_over = False
     g_won = False
