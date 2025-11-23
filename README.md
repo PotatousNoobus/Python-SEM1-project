@@ -1,1 +1,1 @@
-Add the description of our project here
+We have recreated the classic Minesweeper game with all the functionalities in the CLI
