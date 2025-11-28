@@ -21,12 +21,11 @@ def save_game(board, elapsed_time):
         'elapsed_time': elapsed_time
     }
     
-    try:
-        with open(SAVE_FILENAME, 'w') as file:
-            json.dump(state, file, indent=4) 
-        print("Game saved.")
-    except (IOError, TypeError) as e:
-        print(f"Error saving game: {e}")
+
+    with open(SAVE_FILENAME, 'w') as file:
+        json.dump(state, file, indent=4)
+    print("Game saved.")
+    print(f"Error saving game: {e}")
 
 def load_game():
     """
@@ -38,28 +37,22 @@ def load_game():
     """
     if not os.path.exists(SAVE_FILENAME):
         return None, None, None
-        
-    try:
 
-        with open(SAVE_FILENAME, 'r') as file:
-            state = json.load(file)
-            
-            if 'grid' in state and 'player_grid' in state and 'elapsed_time' in state:
-                return state['grid'], state['player_grid'], state['elapsed_time']
-            else:
-                return None, None, None
-    except (IOError, json.JSONDecodeError, EOFError) as e:
-        print(f"Error loading saved game: {e}")
-        return None, None, None
+    with open(SAVE_FILENAME, 'r') as file:
+        state = json.load(file)
+
+        if 'grid' in state and 'player_grid' in state and 'elapsed_time' in state:
+            return state['grid'], state['player_grid'], state['elapsed_time']
+        else:
+            return None, None, None
+
 
 def delete_save():
     """
     Deletes the saved game file if it exists.
     """
     if os.path.exists(SAVE_FILENAME):
-        try:
-            os.remove(SAVE_FILENAME)
-            print("Save file deleted.") 
-        except IOError as e:
-            print(f"Error deleting save file: {e}")
+        os.remove(SAVE_FILENAME)
+        print("Save file deleted.")
+
 
