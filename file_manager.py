@@ -7,7 +7,6 @@ time achieved by the player.
 """
 import os
 
-# The name of the file where the best time is stored.
 FILENAME = "minesweeper_save_time.txt"
 
 def load_time():
@@ -25,7 +24,6 @@ def load_time():
         with open(FILENAME, 'r') as file:
             return float(file.read())
     except ValueError:
-        # This catches errors if the file content isn't a valid number
         return None
 
 def save_time(time_taken):
@@ -44,6 +42,6 @@ def save_time(time_taken):
                 file.write(str(time_taken))
             print(f"New best: {time_taken:.2f} seconds!")
         except IOError:
-            # This catches errors if the program can't write to the file
             print("Best time couldnt be saved")
+
 
