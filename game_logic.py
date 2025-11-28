@@ -2,7 +2,7 @@
 game_logic.py
 
 Contains the core non-board-specific logic for the Minesweeper game,
-including functions for revealing cells, placing/removing flags, 
+which includes functions for revealing cells, placing/removing flags, 
 and checking the win condition.
 """
 
@@ -28,8 +28,7 @@ def reveal(board, row, col):
         return False  
 
     elif board.actual_grid[row][col] == '0':
-        # Recursively reveal neighbours if the cell is clear ('0')
-        for nr, nc in board._neighbours(row, col):
+        for nr, nc in board._neighbours(row, col):      #recursion
             reveal(board, nr, nc)
 
     return True 
@@ -47,10 +46,9 @@ def flag(board, row, col):
         return
 
     if board.player_grid[row][col] == 'H':
-        # Change Hidden to Flagged
         board.player_grid[row][col] = 'F'
+
     elif board.player_grid[row][col] == 'F':
-        # Change Flagged back to Hidden
         board.player_grid[row][col] = 'H'
     else:
         print("Cannot flag that cell.")
@@ -60,18 +58,18 @@ def check_win(board):
     Checks if the player has won the game.
     
     The win condition is met when every single non-mine cell on the board
-    has been revealed. If any cell that is NOT a mine is still hidden ('H'), 
+    has been revealed. 
+    If any cell that is NOT a mine is still hidden ('H'), 
     the game is not won.
         
-    Returns:
-        bool: True if the player has won, False otherwise.
+    Returns True if the player has won, False otherwise.
     """
     for r in range(9):
         for c in range(9):
             mine = (board.actual_grid[r][c] == '*')
             hidden = (board.player_grid[r][c] == 'H')            
             
-            # If a cell is NOT a mine AND it is still hidden, the player hasn't won.
             if ((not mine) and hidden):
                 return False                
     return True
+
