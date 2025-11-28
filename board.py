@@ -20,7 +20,7 @@ class Board:
         """
         self.size = size
         self.num_mines = num_mines
-        self.grid = []
+        self.actual_grid = []
         self.player_grid = []
         
         self._init_grids()        
@@ -34,7 +34,7 @@ class Board:
         - self.player_grid: Filled with 'H' (Hidden), which is what the player sees.
         """
         
-        self.grid = [['0','0','0','0','0','0','0','0','0'],['0','0','0','0','0','0','0','0','0'],['0','0','0','0','0','0','0','0','0'],['0','0','0','0','0','0','0','0','0'],['0','0','0','0','0','0','0','0','0'],['0','0','0','0','0','0','0','0','0'],['0','0','0','0','0','0','0','0','0'],['0','0','0','0','0','0','0','0','0'],['0','0','0','0','0','0','0','0','0']]
+        self.actual_grid = [['0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0'], ['0', '0', '0', '0', '0', '0', '0', '0', '0']]
 
         self.player_grid = [['H','H','H','H','H','H','H','H','H'],['H','H','H','H','H','H','H','H','H'],['H','H','H','H','H','H','H','H','H'],['H','H','H','H','H','H','H','H','H'],['H','H','H','H','H','H','H','H','H'],['H','H','H','H','H','H','H','H','H'],['H','H','H','H','H','H','H','H','H'],['H','H','H','H','H','H','H','H','H'],['H','H','H','H','H','H','H','H','H']]
     
@@ -45,12 +45,13 @@ class Board:
         without overlap.
         """
         curr_mines = 0
+
         while (curr_mines < 10):
             row = random.randint(0, 8)
             col = random.randint(0, 8)            
             
-            if self.grid[row][col] != '*':
-                self.grid[row][col] = '*'
+            if self.actual_grid[row][col] != '*':
+                self.actual_grid[row][col] = '*'
                 curr_mines+=1
 
     def is_valid(self, row, col):
@@ -68,7 +69,7 @@ class Board:
         Calculates and returns a list of valid coordinates for all 8 adjacent cells.
         This helps in checking for mines or recursively revealing clear areas.
         """
-        neighbours = [] #list of lists of all the neighbours of the cell
+        all_neighbours = [] #list of lists of all the neighbours of the cell
         for nr in [0,1,-1]:
             for nc in [0,1,-1]: #to check all 8 possible combinations
                 if nr==0 and nc==0:
@@ -77,8 +78,8 @@ class Board:
                     nrow = row + nr
                     ncol = col + nc            
                     if self.is_valid(nrow, ncol):
-                        neighbours.append([nrow,ncol])
-        return neighbours
+                        all_neighbours.append([nrow,ncol])
+        return all_neighbours
     
     def _calc_num(self):
         """
@@ -87,23 +88,35 @@ class Board:
         """
         for r in range(self.size):
             for c in range(self.size):
-                if self.grid[r][c] == '*':
+                if self.actual_grid[r][c] == '*':
                     continue
                 
                 mine_count = 0
                 for nr, nc in self._neighbours(r,c): #neighbours = [(nr,nc)]
-                    if self.grid[nr][nc] == '*':
+                    if self.actual_grid[nr][nc] == '*':
                         mine_count+=1 
                 
-                self.grid[r][c] = str(mine_count)        
+                self.actual_grid[r][c] = str(mine_count)
 
     def print_board(self):
         """
         Displays the current state of the game board (self.player_grid) to the user.
         It includes the column and row indices for easier input.
         """
-        print("   " + " ".join([str(i) for i in range(self.size)]))
-        print("  " + "-" * (self.size * 2))
+        #print("   " + " ".join([str(i) for i in range(self.size)]))
+
+        print("   ", end="")
+        for i in range(9):
+            print(f"{str(i)} ", end="")
+
+        print()
+
+        #print("  " + "-" * (self.size * 2))
+
+        print("  ", end="")
+        for i in range(18):
+            print("-", end="")
+        print()
         
         for rindex, r in enumerate(self.player_grid):
             print(f"{rindex} |" + " ".join(r))
@@ -116,4 +129,4 @@ class Board:
         """
         for r in range(9):
             for c in range(9):
-                self.player_grid[r][c] = self.grid[r][c]
+                self.player_grid[r][c] = self.actual_grid[r][c]

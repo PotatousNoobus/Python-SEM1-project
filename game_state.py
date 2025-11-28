@@ -16,7 +16,7 @@ def save_game(board, elapsed_time):
     
     """
     state = {
-        'grid': board.grid,
+        'grid': board.actual_grid,
         'player_grid': board.player_grid,
         'elapsed_time': elapsed_time
     }

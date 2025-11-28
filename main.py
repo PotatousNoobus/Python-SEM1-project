@@ -28,11 +28,11 @@ def user_input(board_size):
     try:
         user_input = input("Enter action ('r'/'f' row col) or 'q' to save/quit: ").split()
         
-        if len(user_input) == 1 and user_input[0].lower() == 'q':
+        if user_input[0].lower() == 'q':
             return 'q', None, None
 
         if len(user_input) != 3:
-            print("Invalid input. Please enter 3 values (action row col) or 'q'.")
+            print("Invalid input. Please enter 3 values (command row col) or 'q'.")
             return None, None, None
 
         cmd = user_input[0].lower()
@@ -40,12 +40,13 @@ def user_input(board_size):
         col = int(user_input[2])
 
         if cmd!='r' and cmd!='f' and cmd!='q':
-            print("Invalid action. Type 'r', 'f', or 'q'.")
+            print("Invalid command. Type 'r', 'f', or 'q'.")
             return None, None, None
 
         if not ((row < board_size and row>=0) and (col>=0 and col < board_size)):
             print(f"Invalid position.")
             return None, None, None
+
             
         return cmd, row, col
 
@@ -71,9 +72,10 @@ def run_game():
     previous_elapsed_time = 0
 
     loaded_grid, loaded_player_grid, loaded_time = game_state.load_game()
+
     if loaded_grid:
         print("Loading the saved game....")
-        board.grid = loaded_grid
+        board.actual_grid = loaded_grid
         board.player_grid = loaded_player_grid
         previous_elapsed_time = loaded_time
 
@@ -109,7 +111,7 @@ def run_game():
             g_won = game_logic.check_win(board)
 
     end_time = time.time()
-    time_taken = (end_time - start_time) + previous_elapsed_time
+    time_taken = previous_elapsed_time + (end_time - start_time)
 
     if cmd == 'q':
         game_state.save_game(board, time_taken)

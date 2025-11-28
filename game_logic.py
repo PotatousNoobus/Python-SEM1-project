@@ -22,12 +22,12 @@ def reveal(board, row, col):
     if not board.is_valid(row, col) or board.player_grid[row][col] != 'H':
         return True
         
-    board.player_grid[row][col] = board.grid[row][col]
+    board.player_grid[row][col] = board.actual_grid[row][col]
 
-    if board.grid[row][col] == '*':
+    if board.actual_grid[row][col] == '*':
         return False  
 
-    elif board.grid[row][col] == '0':
+    elif board.actual_grid[row][col] == '0':
         # Recursively reveal neighbours if the cell is clear ('0')
         for nr, nc in board._neighbours(row, col):
             reveal(board, nr, nc)
@@ -68,7 +68,7 @@ def check_win(board):
     """
     for r in range(9):
         for c in range(9):
-            mine = (board.grid[r][c] == '*')
+            mine = (board.actual_grid[r][c] == '*')
             hidden = (board.player_grid[r][c] == 'H')            
             
             # If a cell is NOT a mine AND it is still hidden, the player hasn't won.
