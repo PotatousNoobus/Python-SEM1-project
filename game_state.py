@@ -25,7 +25,6 @@ def save_game(board, elapsed_time):
     with open(SAVE_FILENAME, 'w') as file:
         json.dump(state, file, indent=4)
     print("Game saved.")
-    print(f"Error saving game: {e}")
 
 def load_game():
     """
@@ -54,5 +53,6 @@ def delete_save():
     if os.path.exists(SAVE_FILENAME):
         os.remove(SAVE_FILENAME)
         print("Save file deleted.")
+
 
 
