@@ -25,34 +25,32 @@ def user_input(board_size):
                otherwise (None, None, None).
                
     """
-    try:
-        user_input = input("Enter action ('r'/'f' row col) or 'q' to save/quit: ").split()
-        
-        if user_input[0].lower() == 'q':
-            return 'q', None, None
 
-        if len(user_input) != 3:
-            print("Invalid input. Please enter 3 values (command row col) or 'q'.")
-            return None, None, None
+    user_input = input("Enter action ('r'/'f' row col) or 'q' to save/quit: ").split()
 
-        cmd = user_input[0].lower()
-        row = int(user_input[1])
-        col = int(user_input[2])
+    if user_input[0].lower() == 'q':
+        return 'q', None, None
 
-        if cmd!='r' and cmd!='f' and cmd!='q':
-            print("Invalid command. Type 'r', 'f', or 'q'.")
-            return None, None, None
-
-        if not ((row < board_size and row>=0) and (col>=0 and col < board_size)):
-            print(f"Invalid position.")
-            return None, None, None
-
-            
-        return cmd, row, col
-
-    except ValueError:
-        print("Invalid input. Row and column must be integers.")
+    if len(user_input) != 3:
+        print("Invalid input. Please enter 3 values (command row col) or 'q'.")
         return None, None, None
+
+    cmd = user_input[0].lower()
+    row = int(user_input[1])
+    col = int(user_input[2])
+
+    if cmd!='r' and cmd!='f' and cmd!='q':
+        print("Invalid command. Type 'r', 'f', or 'q'.")
+        return None, None, None
+
+    if not ((row < board_size and row>=0) and (col>=0 and col < board_size)):
+        print(f"Invalid position.")
+        return None, None, None
+
+
+    return cmd, row, col
+
+
 
 def run_game():
     """
